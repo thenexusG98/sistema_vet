@@ -125,6 +125,9 @@ model User {
   activityLogs   ActivityLog[]
 
   @@unique([email, clinicId])
+  @@index([clinicId])
+  @@index([clinicId, role])
+  @@index([clinicId, active])
   @@map("users")
 }
 
@@ -153,6 +156,9 @@ model Client {
   pets        Pet[]
   sales       Sale[]
 
+  @@index([clinicId])
+  @@index([clinicId, active])
+  @@index([clinicId, lastName])
   @@map("clients")
 }
 
@@ -185,6 +191,9 @@ model Pet {
   hospitalizations   Hospitalization[]
   vaccineReminders   VaccineReminder[]
 
+  @@index([clinicId])
+  @@index([clinicId, clientId])
+  @@index([clinicId, active])
   @@map("pets")
 }
 
@@ -210,6 +219,10 @@ model Appointment {
 
   medicalRecord MedicalRecord?
 
+  @@index([clinicId])
+  @@index([clinicId, date])
+  @@index([clinicId, status])
+  @@index([clinicId, vetId, date])
   @@map("appointments")
 }
 
@@ -243,6 +256,9 @@ model MedicalRecord {
 
   prescriptions   Prescription[]
 
+  @@index([clinicId])
+  @@index([clinicId, petId])
+  @@index([clinicId, consultDate])
   @@map("medical_records")
 }
 
@@ -265,6 +281,8 @@ model Prescription {
   clinicId        String
   clinic          Clinic        @relation(fields: [clinicId], references: [id])
 
+  @@index([clinicId])
+  @@index([clinicId, petId])
   @@map("prescriptions")
 }
 
@@ -296,6 +314,10 @@ model Product {
   inventoryMovements InventoryMovement[]
   supplierProducts   SupplierProduct[]
 
+  @@index([clinicId])
+  @@index([clinicId, category])
+  @@index([clinicId, active])
+  @@index([clinicId, stock])
   @@map("products")
 }
 
@@ -317,6 +339,8 @@ model Supplier {
 
   supplierProducts SupplierProduct[]
 
+  @@index([clinicId])
+  @@index([clinicId, active])
   @@map("suppliers")
 }
 
@@ -346,6 +370,9 @@ model InventoryMovement {
   clinicId  String
   clinic    Clinic  @relation(fields: [clinicId], references: [id])
 
+  @@index([clinicId])
+  @@index([clinicId, productId])
+  @@index([clinicId, createdAt])
   @@map("inventory_movements")
 }
 
@@ -372,6 +399,9 @@ model Sale {
   items         SaleItem[]
   payments      Payment[]
 
+  @@index([clinicId])
+  @@index([clinicId, createdAt])
+  @@index([clinicId, status])
   @@map("sales")
 }
 
@@ -422,6 +452,8 @@ model Hospitalization {
   clinicId    String
   clinic      Clinic @relation(fields: [clinicId], references: [id])
 
+  @@index([clinicId])
+  @@index([clinicId, status])
   @@map("hospitalizations")
 }
 
@@ -440,6 +472,9 @@ model VaccineReminder {
   clinicId    String
   clinic      Clinic @relation(fields: [clinicId], references: [id])
 
+  @@index([clinicId])
+  @@index([clinicId, dueDate])
+  @@index([clinicId, sent])
   @@map("vaccine_reminders")
 }
 
@@ -458,5 +493,8 @@ model ActivityLog {
   clinicId  String
   clinic    Clinic @relation(fields: [clinicId], references: [id])
 
+  @@index([clinicId])
+  @@index([clinicId, createdAt])
+  @@index([clinicId, entity])
   @@map("activity_logs")
 }

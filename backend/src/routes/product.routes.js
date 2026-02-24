@@ -4,6 +4,7 @@ import { authenticate, authorize, ensureClinic } from '../middlewares/auth.js';
 import { validateBody } from '../middlewares/validate.js';
 import { createProductSchema, updateProductSchema } from '../validators/product.validator.js';
 import { activityLogger } from '../middlewares/activityLogger.js';
+import { tenantParamGuard } from '../middlewares/tenantGuard.js';
 
 const router = Router();
 
@@ -12,9 +13,9 @@ router.use(authenticate, ensureClinic);
 router.get('/', productController.getAll);
 router.get('/low-stock', productController.getLowStock);
 router.get('/expiring', productController.getExpiring);
-router.get('/:id', productController.getById);
+router.get('/:id', tenantParamGuard('product'), productController.getById);
 router.post('/', authorize('ADMIN'), validateBody(createProductSchema), activityLogger('CREATE', 'Product'), productController.create);
-router.put('/:id', authorize('ADMIN'), validateBody(updateProductSchema), activityLogger('UPDATE', 'Product'), productController.update);
-router.delete('/:id', authorize('ADMIN'), activityLogger('DELETE', 'Product'), productController.delete);
+router.put('/:id', authorize('ADMIN'), tenantParamGuard('product'), validateBody(updateProductSchema), activityLogger('UPDATE', 'Product'), productController.update);
+router.delete('/:id', authorize('ADMIN'), tenantParamGuard('product'), activityLogger('DELETE', 'Product'), productController.delete);
 
 export default router;
