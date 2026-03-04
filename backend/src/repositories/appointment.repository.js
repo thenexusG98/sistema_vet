@@ -29,8 +29,10 @@ export const appointmentRepository = {
         orderBy: [{ date: 'asc' }, { startTime: 'asc' }],
         include: {
           pet: {
-            select: { id: true, name: true, species: true },
-            include: { client: { select: { id: true, firstName: true, lastName: true, phone: true } } },
+            select: {
+              id: true, name: true, species: true,
+              client: { select: { id: true, firstName: true, lastName: true, phone: true } },
+            },
           },
           vet: { select: { id: true, firstName: true, lastName: true } },
         },
@@ -88,8 +90,10 @@ export const appointmentRepository = {
       orderBy: [{ date: 'asc' }, { startTime: 'asc' }],
       include: {
         pet: {
-          select: { id: true, name: true, species: true },
-          include: { client: { select: { firstName: true, lastName: true } } },
+          select: {
+            id: true, name: true, species: true,
+            client: { select: { firstName: true, lastName: true } },
+          },
         },
         vet: { select: { id: true, firstName: true, lastName: true } },
       },
@@ -110,8 +114,10 @@ export const appointmentRepository = {
       orderBy: { startTime: 'asc' },
       include: {
         pet: {
-          select: { id: true, name: true, species: true },
-          include: { client: { select: { firstName: true, lastName: true, phone: true } } },
+          select: {
+            id: true, name: true, species: true,
+            client: { select: { firstName: true, lastName: true, phone: true } },
+          },
         },
         vet: { select: { firstName: true, lastName: true } },
       },

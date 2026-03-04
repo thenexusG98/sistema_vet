@@ -16,8 +16,12 @@ export const medicalRecordRepository = {
         take: limit,
         orderBy: { consultDate: 'desc' },
         include: {
-          pet: { select: { id: true, name: true, species: true },
-            include: { client: { select: { firstName: true, lastName: true } } } },
+          pet: {
+            select: {
+              id: true, name: true, species: true,
+              client: { select: { firstName: true, lastName: true } },
+            },
+          },
           vet: { select: { id: true, firstName: true, lastName: true } },
           prescriptions: true,
         },
